@@ -1,24 +1,3 @@
-$("#detectBtn").click(function() {
-    imageData = {
-        image_data: $("#photo").attr("src")
-    }
-    $.ajax({
-        type: "POST",
-        url: "get_care",
-        // The key needs to match your method's input parameter (case-sensitive).
-        data: JSON.stringify(imageData),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function(data){
-            console.log(data);
-            loadURL(data.url)
-        },
-        failure: function(errMsg) {
-            alert(errMsg);
-        }
-    });
-})
-
 var iframe = document.getElementsByTagName('iframe')[0];
 var url = iframe.src;
 var getData = function (data) {
@@ -39,4 +18,23 @@ var loadHTML = function (html) {
     iframe.contentWindow.document.close();
 }
 
-loadURL(iframe.src);
+$("#detectBtn").click(function() {
+    imageData = {
+        image_data: $("#photo").attr("src")
+    }
+    $.ajax({
+        type: "POST",
+        url: "get_care",
+        // The key needs to match your method's input parameter (case-sensitive).
+        data: JSON.stringify(imageData),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data){
+            console.log(data);
+            loadURL(data.url)
+        },
+        failure: function(errMsg) {
+            alert(errMsg);
+        }
+    });
+})

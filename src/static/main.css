@@ -17,12 +17,10 @@
 }
 
 .camera {
-  width: 340px;
   display:inline-block;
 }
 
 .output {
-  width: 340px;
   display:inline-block;
 }
 
@@ -44,4 +42,12 @@
   font-size: 16px;
   font-family: "Lucida Grande", "Arial", sans-serif;
   width: 760px;
+}
+
+.header {
+  padding: 30px;
+  text-align: center;
+  background: #1a6ebc;
+  color: white;
+  font-size: 30px;
 }
