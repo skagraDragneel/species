@@ -4,4 +4,6 @@
 # IDE files
 .vscode/
 
+# Images
+*.jpg
 

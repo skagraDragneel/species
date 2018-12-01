@@ -1,6 +1,10 @@
 import tensorflow as tf
 import cv2 as cv
+import numpy as np
+import base64
+from PIL import Image
 import utils.detect.label_map_util as label_util
+from io import BytesIO
 
 
 class ImageRecognition:
@@ -15,8 +19,14 @@ class ImageRecognition:
 
         self.labels = label_util.get_label_map_dict(graph_labels)
 
-    def get_classes(self, image_location: str):
-        img = cv.imread(image_location)
+    def get_image(self, image_b64: str):
+        sbuf = BytesIO()
+        sbuf.write(base64.b64decode(image_b64))
+        pimg = Image.open(sbuf)
+        return cv.cvtColor(np.array(pimg), cv.COLOR_RGB2BGR)
+
+    def get_classes(self, image_b64: str):
+        img = self.get_image(image_b64)
         rows = img.shape[0]
         cols = img.shape[1]
         inp = cv.resize(img, (300, 300))
