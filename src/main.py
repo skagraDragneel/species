@@ -28,6 +28,11 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/main_page')
+def main():
+    return render_template('main.html')
+
+
 @app.route('/get_care', methods=['POST'])
 def name():
     image_b64 = request.json['image_data'].split(',')[1]
@@ -56,4 +61,4 @@ def main():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, host='0.0.0.0')
