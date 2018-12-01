@@ -1,13 +1,26 @@
 import os
 import argparse
 from utils.detect.image_recognition import ImageRecognition
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
+from configparser import ConfigParser
 
 app = Flask(__name__)
 current_dir = os.path.abspath(os.path.dirname(__file__))
 default_model = os.path.join(current_dir, 'model/frozen_inference_graph.pb')
 default_labels = os.path.join(current_dir, 'model/mscoco_label_map.pbtxt')
 image_recognition = ImageRecognition(default_model, default_labels)
+default_config = os.path.join(current_dir, 'care.ini')
+config = ConfigParser()
+config.read(default_config)
+
+
+def get_care_url(names):
+    print(names)
+    for name in names:
+        name.lower().replace(' ', '_')
+        if name in config['animal_links']:
+            return config['animal_links'][name]
+    return ""
 
 
 @app.route('/')
@@ -15,11 +28,11 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/get_name', methods=['POST'])
+@app.route('/get_care', methods=['POST'])
 def name():
     image_b64 = request.json['image_data'].split(',')[1]
-    print(image_recognition.get_classes(image_b64))
-    return "hello"
+    care_url = get_care_url(image_recognition.get_classes(image_b64))
+    return jsonify({'url': care_url}), 200, {'ContentType': 'application/json'}
 
 
 def main():
