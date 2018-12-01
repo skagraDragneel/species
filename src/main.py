@@ -29,7 +29,7 @@ def index():
 
 
 @app.route('/main_page')
-def main():
+def main_route():
     return render_template('main.html')
 
 
